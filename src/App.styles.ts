@@ -69,6 +69,7 @@ export const Wrapper = styled.div`
     font-weight: bold;
     box-shadow: 1px 3px #0085a3;
     max-width: 300px;
+    font-size: 0.8rem;
   }
 
   .complete {
