@@ -29,12 +29,17 @@ export default function App() {
   const [userAnswers, setUserAnswers] = React.useState<AnswerObject[]>([]);
   const [score, setScore] = React.useState<number>(0);
   const [complete, setComplete] = React.useState<boolean>(false);
-  const [difficulty, setDifficulty] = React.useState(Difficulty.EASY);
+  const [difficulty, setDifficulty] = React.useState<keyof typeof Difficulty>(
+    "EASY"
+  );
 
   const startQuiz = async () => {
     setComplete(false);
     setLoading(true);
-    const new_questions = await fetchQuestions(TOTAL_QUESTIONS, difficulty);
+    const new_questions = await fetchQuestions(
+      TOTAL_QUESTIONS,
+      Difficulty[difficulty]
+    );
     setQuestions(new_questions);
     setLoading(false);
     setGameOver(false);
@@ -61,7 +66,8 @@ export default function App() {
   };
 
   const handleDifficulty = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setDifficulty(e.target.value);
+    let dif = e.target.value;
+    setDifficulty(dif as keyof typeof Difficulty);
   };
 
   console.log(number);
@@ -81,7 +87,7 @@ export default function App() {
             <p>Select Difficulty</p>
             <select value={difficulty} onChange={handleDifficulty}>
               {Object.keys(Difficulty).map((key) => (
-                <option key={key} value={Difficulty[key]}>
+                <option key={key} value={key}>
                   {key}
                 </option>
               ))}
